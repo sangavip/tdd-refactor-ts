@@ -1,17 +1,15 @@
 package org.craftedsw.tripservicekata.service;
 
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-
-import org.craftedsw.tripservicekata.dao.TripDAO;
+import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.model.Trip;
 import org.craftedsw.tripservicekata.model.User;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.mockito.Matchers.*;
 
 public class TripServiceTest {
   /**
@@ -94,6 +92,19 @@ public class TripServiceTest {
     
     tripService.getTripsByUser(getLoggedTestUserWithFriendsWithTrips());
     Assert.assertEquals(2, tripService.getTripsByUser(getLoggedTestUserWithFriendsWithTrips()).size());
+  }
+
+  /**
+   * @see TripService#getTripsByUser(User)
+   * @verifies _throw_exception_when_user_not_logged_in
+   */
+  @Test(expected=UserNotLoggedInException.class)
+  public void getTripsByUser_should_throw_exception_when_user_not_logged_in() throws Exception {
+    TripService tripService = mock(TripService.class);
+    when(tripService.getLoggedInUser()).thenReturn(null);
+    when(tripService.getTripsByUser(any(User.class))).thenCallRealMethod();
+    
+    tripService.getTripsByUser(new User());
   }
 
 }

@@ -21,12 +21,13 @@ public class TripService {
    * @should _return_empty_trip_when_user_logged_in_no_friends
    * @should _return_empty_trip_when_user_logged_in_has_friends_no_trips
    * @should _return_trip_list_when_user_logged_in_has_friends_with_trips
+   * @should _throw_exception_when_user_not_logged_in
    */
   public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException, CollaboratorCallException {
     System.out.println("inside getTripsByUser");
     List<Trip> tripList = new ArrayList<Trip>();
     User loggedUser = getLoggedInUser();
-    System.out.println("got the loggedUser " + loggedUser.toString());
+    System.out.println("got the loggedUser " + loggedUser);
     boolean isFriend = false;
     System.out.println("isFriend = " + isFriend);
     if (loggedUser != null) {

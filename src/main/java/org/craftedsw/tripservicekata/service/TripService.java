@@ -18,22 +18,28 @@ public class TripService {
    * @return
    * @throws UserNotLoggedInException
    * @throws CollaboratorCallException
-   * @should _return_trip_when_user_logged_in
+   * @should _return_empty_trip_when_user_logged_in_no_friends
    */
   public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException, CollaboratorCallException {
+    System.out.println("inside getTripsByUser");
     List<Trip> tripList = new ArrayList<Trip>();
     User loggedUser = getLoggedInUser();
+    System.out.println("got the loggedUser " + loggedUser.toString());
     boolean isFriend = false;
+    System.out.println("isFriend = " + isFriend);
     if (loggedUser != null) {
+      System.out.println("user.getFriends() = " + user.getFriends());
       for (User friend : user.getFriends()) {
         if (friend.equals(loggedUser)) {
           isFriend = true;
           break;
         }
       }
+      System.out.println("isFriend = " + isFriend);
       if (isFriend) {
         tripList = TripDAO.findTripsByUser(user);
       }
+      System.out.println("tripList = " + tripList);
       return tripList;
     } else {
       throw new UserNotLoggedInException();

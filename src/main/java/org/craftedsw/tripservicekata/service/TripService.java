@@ -20,6 +20,7 @@ public class TripService {
    * @throws CollaboratorCallException
    * @should _return_empty_trip_when_user_logged_in_no_friends
    * @should _return_empty_trip_when_user_logged_in_has_friends_no_trips
+   * @should _return_trip_list_when_user_logged_in_has_friends_with_trips
    */
   public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException, CollaboratorCallException {
     System.out.println("inside getTripsByUser");
@@ -38,13 +39,20 @@ public class TripService {
       }
       System.out.println("isFriend = " + isFriend);
       if (isFriend) {
-        tripList = TripDAO.findTripsByUser(user);
+        tripList = findTripsByUser(user);
       }
       System.out.println("tripList = " + tripList);
       return tripList;
     } else {
       throw new UserNotLoggedInException();
     }
+  }
+
+  public List<Trip> findTripsByUser(User user) throws CollaboratorCallException {
+    List<Trip> tripList;
+    TripDAO tripDAO = new TripDAO();
+    tripList = tripDAO.findTripsByUser(user);
+    return tripList;
   }
 
   public User getLoggedInUser() throws CollaboratorCallException {

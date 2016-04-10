@@ -14,7 +14,7 @@ public class TripService {
 
   /**
    * 
-   * @param user
+   * @param friendUser
    * @return
    * @throws UserNotLoggedInException
    * @throws CollaboratorCallException
@@ -23,36 +23,26 @@ public class TripService {
    * @should _return_trip_list_when_user_logged_in_has_friends_with_trips
    * @should _throw_exception_when_user_not_logged_in
    */
-  public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException, CollaboratorCallException {
-    System.out.println("inside getTripsByUser");
-    List<Trip> tripList = new ArrayList<Trip>();
-    User loggedUser = getLoggedInUser();
-    System.out.println("got the loggedUser " + loggedUser);
-    boolean isFriend = false;
-    System.out.println("isFriend = " + isFriend);
+  public List<Trip> getTripsByFriendOfLoggedInUser(User friendUser)
+      throws UserNotLoggedInException, CollaboratorCallException {
 
-    System.out.println("user.getFriends() = " + user.getFriends());
-    for (User friend : user.getFriends()) {
-      if (friend.equals(loggedUser)) {
-        isFriend = true;
-        break;
-      }
-    }
-    System.out.println("isFriend = " + isFriend);
-    if (isFriend) {
-      tripList = findTripsByUser(user);
-    }
-    System.out.println("tripList = " + tripList);
-    return tripList;
+    return findFriendsTrips(friendUser, getLoggedInUser());
 
   }
 
-
-  public List<Trip> findTripsByUser(User user) throws CollaboratorCallException {
-    List<Trip> tripList;
-    TripDAO tripDAO = new TripDAO();
-    tripList = tripDAO.findTripsByUser(user);
+  private List<Trip> findFriendsTrips(User friendUser, User loggedInUser) throws CollaboratorCallException {
+    List<Trip> tripList = new ArrayList<Trip>();
+    for (User friend : friendUser.getFriends()) {
+      if (friend.equals(loggedInUser)) {
+        return findTripsByUserFromDAO(friendUser);
+      }
+    }
     return tripList;
+  }
+
+  public List<Trip> findTripsByUserFromDAO(User user) throws CollaboratorCallException {
+    TripDAO tripDAO = new TripDAO();
+    return tripDAO.findTripsByUser(user);
   }
 
   public User getLoggedInUser() throws CollaboratorCallException, UserNotLoggedInException {

@@ -13,15 +13,15 @@ import org.junit.Test;
 
 public class TripServiceTest {
   /**
-   * @see TripService#getTripsByUser(User)
+   * @see TripService#getTripsByFriendOfLoggedInUser(User)
    * @verifies _return_empty_trip_when_user_logged_in_no_friends
    */
   @Test
   public void getTripsByUser_should_return_empty_trip_when_user_logged_in_no_friends() throws Exception {
     TripService tripService = mock(TripService.class);
     when(tripService.getLoggedInUser()).thenReturn(getLoggedTestUserNoFriends());
-    when(tripService.getTripsByUser(any(User.class))).thenCallRealMethod();
-    Assert.assertEquals(0, tripService.getTripsByUser(new User()).size());
+    when(tripService.getTripsByFriendOfLoggedInUser(any(User.class))).thenCallRealMethod();
+    Assert.assertEquals(0, tripService.getTripsByFriendOfLoggedInUser(new User()).size());
   }
 
   public User getLoggedTestUserNoFriends() {
@@ -65,46 +65,46 @@ public class TripServiceTest {
   }
 
   /**
-   * @see TripService#getTripsByUser(User)
+   * @see TripService#getTripsByFriendOfLoggedInUser(User)
    * @verifies _return_empty_trip_when_user_logged_in_has_friends_no_trips
    */
   @Test
   public void getTripsByUser_should_return_empty_trip_when_user_logged_in_has_friends_no_trips() throws Exception {
     TripService tripService = mock(TripService.class);
     when(tripService.getLoggedInUser()).thenReturn(getLoggedTestUserNoFriends());
-    when(tripService.getTripsByUser(any(User.class))).thenCallRealMethod();
-    when(tripService.findTripsByUser(any(User.class))).thenReturn(getLoggedTestUserWithFriendsNoTrips().getTrips());
+    when(tripService.getTripsByFriendOfLoggedInUser(any(User.class))).thenCallRealMethod();
+    when(tripService.findTripsByUserFromDAO(any(User.class))).thenReturn(getLoggedTestUserWithFriendsNoTrips().getTrips());
     
-    tripService.getTripsByUser(getLoggedTestUserWithFriendsNoTrips());
-    Assert.assertEquals(0, tripService.getTripsByUser(getLoggedTestUserWithFriendsNoTrips()).size());
+    tripService.getTripsByFriendOfLoggedInUser(getLoggedTestUserWithFriendsNoTrips());
+    Assert.assertEquals(0, tripService.getTripsByFriendOfLoggedInUser(getLoggedTestUserWithFriendsNoTrips()).size());
   }
 
   /**
-   * @see TripService#getTripsByUser(User)
+   * @see TripService#getTripsByFriendOfLoggedInUser(User)
    * @verifies _return_trip_list_when_user_logged_in_has_friends_with_trips
    */
   @Test
   public void getTripsByUser_should_return_trip_list_when_user_logged_in_has_friends_with_trips() throws Exception {
     TripService tripService = mock(TripService.class);
     when(tripService.getLoggedInUser()).thenReturn(getLoggedTestUserNoFriends());
-    when(tripService.getTripsByUser(any(User.class))).thenCallRealMethod();
-    when(tripService.findTripsByUser(any(User.class))).thenReturn(getLoggedTestUserWithFriendsWithTrips().getTrips());
+    when(tripService.getTripsByFriendOfLoggedInUser(any(User.class))).thenCallRealMethod();
+    when(tripService.findTripsByUserFromDAO(any(User.class))).thenReturn(getLoggedTestUserWithFriendsWithTrips().getTrips());
     
-    tripService.getTripsByUser(getLoggedTestUserWithFriendsWithTrips());
-    Assert.assertEquals(2, tripService.getTripsByUser(getLoggedTestUserWithFriendsWithTrips()).size());
+    tripService.getTripsByFriendOfLoggedInUser(getLoggedTestUserWithFriendsWithTrips());
+    Assert.assertEquals(2, tripService.getTripsByFriendOfLoggedInUser(getLoggedTestUserWithFriendsWithTrips()).size());
   }
 
   /**
-   * @see TripService#getTripsByUser(User)
+   * @see TripService#getTripsByFriendOfLoggedInUser(User)
    * @verifies _throw_exception_when_user_not_logged_in
    */
   @Test(expected=UserNotLoggedInException.class)
   public void getTripsByUser_should_throw_exception_when_user_not_logged_in() throws Exception {
     TripService tripService = mock(TripService.class);
     when(tripService.getLoggedInUser()).thenThrow(new UserNotLoggedInException());
-    when(tripService.getTripsByUser(any(User.class))).thenCallRealMethod();
+    when(tripService.getTripsByFriendOfLoggedInUser(any(User.class))).thenCallRealMethod();
     
-    tripService.getTripsByUser(new User());
+    tripService.getTripsByFriendOfLoggedInUser(new User());
   }
 
 }

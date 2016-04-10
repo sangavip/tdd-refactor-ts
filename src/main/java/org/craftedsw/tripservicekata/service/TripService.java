@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.craftedsw.tripservicekata.dao.TripDAO;
+import org.craftedsw.tripservicekata.exception.CollaboratorCallException;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.model.Trip;
 import org.craftedsw.tripservicekata.model.User;
@@ -11,7 +12,7 @@ import org.craftedsw.tripservicekata.model.UserSession;
 
 public class TripService {
 
-	public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
+	public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException, CollaboratorCallException {
 		List<Trip> tripList = new ArrayList<Trip>();
 		User loggedUser = UserSession.getInstance().getLoggedUser();
 		boolean isFriend = false;

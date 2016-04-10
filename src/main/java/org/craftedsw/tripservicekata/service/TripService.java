@@ -40,12 +40,12 @@ public class TripService {
     return tripList;
   }
 
-  public List<Trip> findTripsByUserFromDAO(User user) throws CollaboratorCallException {
+  protected List<Trip> findTripsByUserFromDAO(User user) throws CollaboratorCallException {
     TripDAO tripDAO = new TripDAO();
     return tripDAO.findTripsByUser(user);
   }
 
-  public User getLoggedInUser() throws CollaboratorCallException, UserNotLoggedInException {
+  protected User getLoggedInUser() throws CollaboratorCallException, UserNotLoggedInException {
     User loggedInUser = UserSession.getInstance().getLoggedUser();
     if (loggedInUser != null) {
       return loggedInUser;

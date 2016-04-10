@@ -6,7 +6,9 @@ public class UserSession {
 
   private static final UserSession userSession = new UserSession();
 
-  private UserSession() {}
+  private UserSession() {
+    // TODO: Singleton pattern should be taken care by the underlying (DI) framework like spring.
+  }
 
   public static UserSession getInstance() {
     return userSession;

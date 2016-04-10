@@ -1,8 +1,9 @@
 package org.craftedsw.tripservicekata.service;
 
 
-import org.junit.Assert;
+import org.craftedsw.tripservicekata.model.User;
 import org.junit.Test;
+import static org.mockito.Mockito.*;
 
 public class TripServiceTest {
   /**
@@ -11,7 +12,15 @@ public class TripServiceTest {
   */
   @Test
   public void getTripsByUser_should_return_trip_when_user_logged_in() throws Exception {
-    //TODO auto-generated
-    Assert.fail("Not yet implemented");
+    TripService tripService = mock(TripService.class);
+    when(tripService.getLoggedInUser()).thenReturn(new User());
+    
+    tripService.getTripsByUser(new User());
+  }
+  
+  // TODO: TEST INCOMPLETE
+  public User getTestUser(){
+    User user = new User();
+    return user;
   }
 }

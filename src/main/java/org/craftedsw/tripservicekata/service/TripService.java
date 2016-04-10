@@ -30,24 +30,23 @@ public class TripService {
     System.out.println("got the loggedUser " + loggedUser);
     boolean isFriend = false;
     System.out.println("isFriend = " + isFriend);
-    if (loggedUser != null) {
-      System.out.println("user.getFriends() = " + user.getFriends());
-      for (User friend : user.getFriends()) {
-        if (friend.equals(loggedUser)) {
-          isFriend = true;
-          break;
-        }
+
+    System.out.println("user.getFriends() = " + user.getFriends());
+    for (User friend : user.getFriends()) {
+      if (friend.equals(loggedUser)) {
+        isFriend = true;
+        break;
       }
-      System.out.println("isFriend = " + isFriend);
-      if (isFriend) {
-        tripList = findTripsByUser(user);
-      }
-      System.out.println("tripList = " + tripList);
-      return tripList;
-    } else {
-      throw new UserNotLoggedInException();
     }
+    System.out.println("isFriend = " + isFriend);
+    if (isFriend) {
+      tripList = findTripsByUser(user);
+    }
+    System.out.println("tripList = " + tripList);
+    return tripList;
+
   }
+
 
   public List<Trip> findTripsByUser(User user) throws CollaboratorCallException {
     List<Trip> tripList;
@@ -56,8 +55,12 @@ public class TripService {
     return tripList;
   }
 
-  public User getLoggedInUser() throws CollaboratorCallException {
-    return UserSession.getInstance().getLoggedUser();
+  public User getLoggedInUser() throws CollaboratorCallException, UserNotLoggedInException {
+    User loggedInUser = UserSession.getInstance().getLoggedUser();
+    if (loggedInUser != null) {
+      return loggedInUser;
+    }
+    throw new UserNotLoggedInException();
   }
 
 }

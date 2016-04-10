@@ -35,11 +35,11 @@ public class User {
   }
 
   public void addFriend(User user) {
-    friends.add(user);
+    this.friends.add(user);
   }
 
   public void addTrip(Trip trip) {
-    trips.add(trip);
+    this.trips.add(trip);
   }
 
   @Override

@@ -101,7 +101,7 @@ public class TripServiceTest {
   @Test(expected=UserNotLoggedInException.class)
   public void getTripsByUser_should_throw_exception_when_user_not_logged_in() throws Exception {
     TripService tripService = mock(TripService.class);
-    when(tripService.getLoggedInUser()).thenReturn(null);
+    when(tripService.getLoggedInUser()).thenThrow(new UserNotLoggedInException());
     when(tripService.getTripsByUser(any(User.class))).thenCallRealMethod();
     
     tripService.getTripsByUser(new User());
